@@ -16,14 +16,19 @@ import (
 	"golang.org/x/term"
 )
 
-var stock_threshold float64
-var ticker string
+// speech variable required by speech package
 var speech = htgotts.Speech{Folder: "audio", Language: voices.English}
 
-var toEmailAddress string
-var to_text string
-
 func main() {
+
+	// Input variables
+	// Email variables are set in the credentials function because password requires secure input
+
+	var stock_threshold float64
+	var ticker string
+
+	var toEmailAddress string
+	var to_text string
 
 	// Get variables from user
 	fmt.Println("Enter stock threshold:")
@@ -43,11 +48,15 @@ func main() {
 	fmt.Scanln(&to_text)
 	toSMS := []string{to_text}
 
+	//Get quote from ticker
+
 	q, err := quote.Get(ticker)
 	if err != nil {
 		panic(err)
 	}
 	cp := q.RegularMarketChangePercent
+
+	// The actual stock alerter
 
 	fmt.Print(cp, "%\n")
 	for true {
@@ -61,6 +70,8 @@ func main() {
 
 }
 
+// speak() provides stock alerts via computer speakers
+
 func speak(x, y float64) {
 	if x < y {
 		s := "Buy now"
@@ -70,6 +81,8 @@ func speak(x, y float64) {
 		speech.Speak(s)
 	}
 }
+
+//email() uses SMTP protocol to send emails
 
 func email(from, password string, to []string, x, y float64) {
 	host := "smtp.gmail.com"
@@ -96,9 +109,15 @@ func email(from, password string, to []string, x, y float64) {
 	}
 }
 
+//SMS uses SMS gateway to send texts via the given email address
+//This is done via callback
+
 func SMS(from, password string, toSMS []string, x, y float64, f func(from, password string, to []string, x, y float64)) {
 	f(from, password, toSMS, x, y)
 }
+
+//Credentials function takes in email and password in a secure manner
+//I can move the rest of the input variables here; code is a bit split up for now. Functionality wise it makes no difference
 
 func credentials() (string, string, error) {
 	reader := bufio.NewReader(os.Stdin)
