@@ -83,6 +83,8 @@ func speak(x, y float64) {
 }
 
 //email() uses SMTP protocol to send emails
+//Currently this is set to use Gmail, which is only possible with a Gmail buisness account with less-secure app access turned on
+//To use a different email provider, change the host and port
 
 func email(from, password string, to []string, x, y float64) {
 	host := "smtp.gmail.com"
