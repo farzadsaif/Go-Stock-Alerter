@@ -31,20 +31,20 @@ func main() {
 	var to_text string
 
 	// Get variables from user
-	fmt.Println("Enter stock threshold:")
+	fmt.Println("Enter Stock Threshold:")
 	fmt.Scanln(&stock_threshold)
-	fmt.Println("Enter stock ticker:")
+	fmt.Println("Enter Stock Ticker:")
 	fmt.Scanln(&ticker)
 	from, password, err := credentials()
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println()
-	fmt.Println("Enter to email:")
+	fmt.Println("Enter to Email:")
 	fmt.Scanln(&toEmailAddress)
 	toEmail := []string{toEmailAddress}
 
-	fmt.Println("Enter SMS number @ SMS gateway:")
+	fmt.Println("Enter SMS Number @ SMS gateway:")
 	fmt.Scanln(&to_text)
 	toSMS := []string{to_text}
 
@@ -59,7 +59,7 @@ func main() {
 	// The actual stock alerter
 
 	fmt.Print(cp, "%\n")
-	for true {
+	for {
 		if math.Abs(cp) > math.Abs(stock_threshold) {
 			speak(cp, stock_threshold)
 			email(from, password, toEmail, cp, stock_threshold)
@@ -124,13 +124,13 @@ func SMS(from, password string, toSMS []string, x, y float64, f func(from, passw
 func credentials() (string, string, error) {
 	reader := bufio.NewReader(os.Stdin)
 
-	fmt.Print("Enter Username: ")
+	fmt.Print("Enter From Email: ")
 	username, err := reader.ReadString('\n')
 	if err != nil {
 		return "", "", err
 	}
 
-	fmt.Print("Enter Password: ")
+	fmt.Print("Enter From Password: ")
 	bytePassword, err := term.ReadPassword(int(syscall.Stdin))
 	if err != nil {
 		return "", "", err
