@@ -20,3 +20,5 @@ When you run the script you will be presented with some questions:
 **Enter SMS Number @ SMS gateway**: Enter the 10 digit number@gateway which you will send an SMS alert to. For example, if the carrier is Verizon Wireless, then you would type 12345678900@vtext.com. [Here is a list of SMS gateways](https://avtech.com/articles/138/list-of-email-to-sms-addresses/)
 
 Press enter to run the stock alerter.
+
+Press ^C to interrupt the program, ending it.
